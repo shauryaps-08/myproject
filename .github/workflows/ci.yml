@@ -16,13 +16,8 @@ jobs:
           cd /home/shauryaps/playground
           make compile
 
-      - name: Generate RTL
-        run: |
-          cd /home/shauryaps/playground
-          make rtl
-
-      - name: Upload generated Verilog
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: generated-rtl
-          path: /home/shauryaps/playground/out/**/*.sv
+          name: build-output
+          path: /home/shauryaps/playground/out/
