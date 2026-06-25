@@ -1,5 +1,4 @@
-cd ~/myproject
-cat > .github/workflows/ci.yml << 'EOF'
+
 name: CI
 on: [push, pull_request]
 
@@ -27,8 +26,4 @@ jobs:
         run: |
           cd /home/shauryaps/myproject
           make rtl
-EOF
 
-git add .github/workflows/ci.yml
-git commit -m "Simplified CI for self-hosted runner"
-git push origin main
