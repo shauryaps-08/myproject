@@ -4,11 +4,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Convert SSH to HTTPS globally
-        run: |
-          git config --global url."https://github.com/".insteadOf "git@github.com:"
-          git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
-
       - name: Checkout myproject
         uses: actions/checkout@v3
         with:
@@ -20,6 +15,13 @@ jobs:
           repository: morphingmachines/playground
           path: playground
           submodules: false
+
+      - name: Fix SSH URLs in .gitmodules
+        working-directory: playground
+        run: |
+          sed -i 's|git@github.com:|https://github.com/|g' .gitmodules
+          cat .gitmodules
+          git submodule sync
 
       - name: Initialize submodules
         working-directory: playground
