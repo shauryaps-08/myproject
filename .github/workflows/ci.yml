@@ -12,7 +12,17 @@ jobs:
         with:
           repository: morphingmachines/playground
           path: playground
-          submodules: recursive
+          submodules: false
+
+      - name: Checkout only needed submodules
+        working-directory: playground
+        run: |
+          git submodule update --init dependencies/cde
+          git submodule update --init dependencies/berkeley-hardfloat
+          git submodule update --init dependencies/rocket-chip
+          git submodule update --init dependencies/diplomacy
+          git submodule update --init dependencies/emitrtl
+          git submodule update --init dependencies/chipyard
 
       - name: Convert SSH to HTTPS
         run: git config --global url."https://github.com/".insteadOf "git@github.com:"
