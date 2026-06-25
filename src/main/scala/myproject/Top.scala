@@ -1,6 +1,6 @@
 // See README.md for license details.
 
-package gcd
+package myproject
 
 /** To run from a terminal shell
   * {{{

@@ -1,6 +1,6 @@
 // See README.md for license details.
 
-package gcd
+package myproject
 
 import chisel3._
 

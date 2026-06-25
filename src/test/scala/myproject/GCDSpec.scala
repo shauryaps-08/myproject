@@ -1,6 +1,6 @@
 // See README.md for license details.
 
-package gcd
+package myproject
 
 import org.scalatest.freespec.AnyFreeSpec
 
