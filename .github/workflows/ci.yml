@@ -1,15 +1,11 @@
+cat > ~/CIworkflow/chisel-template/.github/workflows/ci.yml << 'EOF'
 name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout playground
         uses: actions/checkout@v3
@@ -18,16 +14,15 @@ jobs:
           path: playground
           submodules: recursive
 
-      - name: Checkout chisel-template
+      - name: Checkout myproject
         uses: actions/checkout@v3
         with:
           path: myproject
 
-      - name: Install Java 17
-        uses: actions/setup-java@v3
+      - uses: cachix/install-nix-action@v19
         with:
-          distribution: temurin
-          java-version: 17
+          install_url: https://releases.nixos.org/nix/nix-2.13.3/install
+          nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Install firtool
         run: |
@@ -37,4 +32,5 @@ jobs:
 
       - name: Run tests
         working-directory: myproject
-        run: make check
+        run: nix develop -c make check
+EOF
