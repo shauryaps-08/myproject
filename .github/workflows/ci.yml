@@ -6,7 +6,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Checkout myproject
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Verify firtool
         run: firtool --version
@@ -22,7 +22,7 @@ jobs:
           make rtl
 
       - name: Upload generated Verilog
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: generated-rtl
           path: /home/shauryaps/playground/out/**/*.sv
