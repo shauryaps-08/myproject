@@ -4,22 +4,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Convert SSH to HTTPS
+      - name: Convert SSH to HTTPS globally
         run: |
           git config --global url."https://github.com/".insteadOf "git@github.com:"
           git config --global url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+      - name: Checkout myproject
+        uses: actions/checkout@v3
+        with:
+          path: myproject
 
       - name: Checkout playground
         uses: actions/checkout@v3
         with:
           repository: morphingmachines/playground
           path: playground
-          submodules: recursive
+          submodules: false
 
-      - name: Checkout myproject
-        uses: actions/checkout@v3
-        with:
-          path: myproject
+      - name: Initialize submodules
+        working-directory: playground
+        run: |
+          git submodule update --init --recursive
 
       - name: Install Java
         uses: actions/setup-java@v3
