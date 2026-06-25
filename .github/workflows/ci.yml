@@ -1,10 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -18,12 +14,12 @@ jobs:
           path: playground
           submodules: recursive
 
-      - name: Checkout chisel-template
+      - name: Checkout myproject
         uses: actions/checkout@v3
         with:
           path: myproject
 
-      - name: Install Java 17
+      - name: Install Java
         uses: actions/setup-java@v3
         with:
           distribution: temurin
@@ -31,8 +27,8 @@ jobs:
 
       - name: Install firtool
         run: |
-          wget -O firtool.tar.gz https://github.com/llvm/circt/releases/download/firtool-1.62.1/circt-full-shared-linux-x64.tar.gz
-          tar -xzf firtool.tar.gz
+          wget https://github.com/llvm/circt/releases/download/firtool-1.62.1/circt-full-shared-linux-x64.tar.gz
+          tar -xzf circt-full-shared-linux-x64.tar.gz
           echo "$HOME/firtool-1.62.1/bin" >> $GITHUB_PATH
 
       - name: Run tests
