@@ -14,11 +14,7 @@ jobs:
         with:
           repository: morphingmachines/playground
           path: playground
-          submodules: false
-
-      - name: Fetch playground submodules
-        working-directory: playground
-        run: git submodule update --init --recursive
+          submodules: recursive
 
       - name: Checkout myproject
         uses: actions/checkout@v3
