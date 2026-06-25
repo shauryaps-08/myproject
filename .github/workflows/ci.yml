@@ -3,21 +3,39 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout myproject
-        uses: actions/checkout@v4
+      - name: Convert SSH to HTTPS
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
 
-      - name: Verify firtool
-        run: firtool --version
-
-      - name: Compile
-        run: |
-          cd /home/shauryaps/playground
-          make compile
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - name: Checkout playground
+        uses: actions/checkout@v3
         with:
-          name: build-output
-          path: /home/shauryaps/playground/out/
+          repository: morphingmachines/playground
+          path: playground
+          submodules: recursive
+
+      - name: Checkout myproject
+        uses: actions/checkout@v3
+        with:
+          path: myproject
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install firtool
+        run: |
+          wget https://github.com/llvm/circt/releases/download/firtool-1.62.1/circt-full-shared-linux-x64.tar.gz
+          tar -xzf circt-full-shared-linux-x64.tar.gz
+          echo "$HOME/firtool-1.62.1/bin" >> $GITHUB_PATH
+      - name: Run tests
+        working-directory: myproject
+        run: make check
+
+      - name: Generate RTL
+        working-directory: myproject
+        run: make rtl
