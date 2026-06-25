@@ -1,4 +1,3 @@
-cat > ~/CIworkflow/chisel-template/.github/workflows/ci.yml << 'EOF'
 name: CI
 
 on: [push, pull_request]
@@ -45,4 +44,3 @@ jobs:
       - name: Run tests
         working-directory: myproject
         run: make check
-EOF
