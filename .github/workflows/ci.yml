@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout chisel-template
+        uses: actions/checkout@v3
+
+      - name: Checkout playground
+        uses: actions/checkout@v3
+        with:
+          repository: morphingmachines/playground
+          path: ../playground
+          submodules: recursive
+
+      - name: Install Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Install firtool
+        run: |
+          wget -O firtool.tar.gz https://github.com/llvm/circt/releases/download/firtool-1.62.1/circt-full-shared-linux-x64.tar.gz
+          tar -xzf firtool.tar.gz
+          echo "$HOME/firtool-1.62.1/bin" >> $GITHUB_PATH
+
+      - name: Run tests
+        run: make check
