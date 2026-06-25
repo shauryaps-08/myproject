@@ -8,7 +8,7 @@ MILL = ./../playground/mill
 
 # Targets
 rtl: check-firtool ## Generates Verilog code from Chisel sources (output to ./generated_sv_dir)
-	$(MILL) $(project).runMain myproject.myproject
+	$(MILL) $(project).runMain myproject.gcd8
 
 check: test
 .PHONY: test

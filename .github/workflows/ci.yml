@@ -14,6 +14,9 @@ jobs:
           path: playground
           submodules: recursive
 
+      - name: Convert SSH to HTTPS
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
+
       - name: Checkout myproject
         uses: actions/checkout@v3
         with:
@@ -34,3 +37,7 @@ jobs:
       - name: Run tests
         working-directory: myproject
         run: make check
+
+      - name: Generate RTL
+        working-directory: myproject
+        run: make rtl
